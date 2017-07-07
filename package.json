@@ -1,0 +1,30 @@
+{
+  "name": "warped-time",
+  "version": "0.0.1",
+  "description": "Provides an equivalent to Date.getTime() with variable progression speed.",
+  "main": "main.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Monadical-SAS/warped-time.git"
+  },
+  "keywords": [
+    "time",
+    "time-travel",
+    "warped",
+    "debugging",
+    "animation",
+    "animations"
+  ],
+  "author": "Nick Sweeting",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Monadical-SAS/warped-time/issues"
+  },
+  "homepage": "https://github.com/Monadical-SAS/warped-time#readme"
+}
