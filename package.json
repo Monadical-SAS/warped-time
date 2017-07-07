@@ -28,6 +28,6 @@
   },
   "homepage": "https://github.com/Monadical-SAS/warped-time#readme",
   "dependencies": {
-    "monadical-react-components": "^0.0.2"
+    "monadical-react-components": "^0.0.3"
   }
 }
