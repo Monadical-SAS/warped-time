@@ -10,10 +10,10 @@
 
 */
 
-import {select} from './reducers.js'
+import {select, time} from './reducers.js'
 
 
-export class WarpedTime {
+class WarpedTime {
     constructor(store=null, speed=1) {
         this._lastTime = (new Date).getTime()
         this._currTime = this._lastTime
@@ -43,3 +43,5 @@ export class WarpedTime {
         this.setSpeed(select(this.store.getState()).speed)
     }
 }
+
+export {WarpedTime, time}

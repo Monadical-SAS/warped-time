@@ -1,4 +1,3 @@
-
 export const select = (state) => state.time
 
 const initial_state = {

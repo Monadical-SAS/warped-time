@@ -1,7 +1,7 @@
 import React from 'react'
 import {Button} from 'react-bootstrap'
 
-import {ExpandableSection} from './section.js'
+import {ExpandableSection} from 'monadical-react-components'
 
 
 const SOURCE = "https://github.com/Monadical-SAS/redux-time/blob/master/warped-time/controls.js"

@@ -1,8 +1,8 @@
 {
   "name": "warped-time",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Provides an equivalent to Date.getTime() with variable progression speed.",
-  "main": "main.js",
+  "main": "src/main.js",
   "directories": {
     "example": "examples"
   },
@@ -26,5 +26,8 @@
   "bugs": {
     "url": "https://github.com/Monadical-SAS/warped-time/issues"
   },
-  "homepage": "https://github.com/Monadical-SAS/warped-time#readme"
+  "homepage": "https://github.com/Monadical-SAS/warped-time#readme",
+  "dependencies": {
+    "monadical-react-components": "^0.0.2"
+  }
 }
