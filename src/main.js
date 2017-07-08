@@ -11,7 +11,7 @@
 */
 
 import {select, time} from './reducers.js'
-import {TimeControls} from './controls.js'
+import {TimeControls, TimeControlsComponent} from './controls.js'
 
 class WarpedTime {
     constructor(store=null, speed=1) {
@@ -44,4 +44,4 @@ class WarpedTime {
     }
 }
 
-export {WarpedTime, time, TimeControls}
+export {WarpedTime, time, TimeControls, TimeControlsComponent}

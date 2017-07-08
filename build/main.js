@@ -40288,7 +40288,7 @@ var TimeControls = exports.TimeControls = function (_React$Component) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.TimeControls = exports.time = exports.WarpedTime = undefined;
+exports.TimeControlsComponent = exports.TimeControls = exports.time = exports.WarpedTime = undefined;
 
 var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
 
@@ -40361,6 +40361,7 @@ var WarpedTime = function () {
 exports.WarpedTime = WarpedTime;
 exports.time = _reducers.time;
 exports.TimeControls = _controls.TimeControls;
+exports.TimeControlsComponent = _controls.TimeControlsComponent;
 
 },{"./controls.js":453,"./reducers.js":455,"babel-runtime/helpers/classCallCheck":12,"babel-runtime/helpers/createClass":13}],455:[function(require,module,exports){
 'use strict';
