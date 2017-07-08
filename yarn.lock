@@ -2773,7 +2773,7 @@ react-daterange-picker@^1.1.0:
     moment-range "^2.0.3"
     react-addons-pure-render-mixin "^0.14.0 || 15.x.x"
 
-react-dom@^15.5.4:
+react-dom@^15.6.1:
   version "15.6.1"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-15.6.1.tgz#2cb0ed4191038e53c209eb3a79a23e2a4cf99470"
   dependencies:
@@ -2810,7 +2810,7 @@ react-redux@^5.0.5:
     loose-envify "^1.1.0"
     prop-types "^15.5.10"
 
-react@^15.5.4, react@^15.6.1:
+react@15.6.1, react@^15.6.1:
   version "15.6.1"
   resolved "https://registry.yarnpkg.com/react/-/react-15.6.1.tgz#baa8434ec6780bde997cdc380b79cd33b96393df"
   dependencies:
