@@ -32,3 +32,13 @@ window.time.setSpeed(0.01)  // make time progress at 0.01x its actual speed
 window.time.getWarpedTime()
 > 1499014499.01
 ```
+
+## Info
+
+This library is useful for:
+
+- time-travel debugging
+- animations
+- any situation where you want a version of time that's flowing slower/faster/reversed compared to the actual time
+
+We use it at [Monadical](https://monadical.com) for time-travel debugging in our animations library [`redux-time`](https://monadical-sas.github.io/redux-time/).
