@@ -1,6 +1,6 @@
 {
   "name": "warped-time",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Provides an equivalent to Date.getTime() with variable progression speed.",
   "main": "src/main.js",
   "directories": {
