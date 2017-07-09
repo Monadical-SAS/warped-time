@@ -41,4 +41,10 @@ This library is useful for:
 - animations
 - any situation where you want a version of time that's flowing slower/faster/reversed compared to the actual time
 
-We use it at [Monadical](https://monadical.com) for time-travel debugging in our animations library [`redux-time`](https://monadical-sas.github.io/redux-time/).
+We use it for time-travel debugging in our animations library [`redux-time`](https://monadical-sas.github.io/redux-time/).
+
+---
+<img src="examples/static/jeremy.jpg" height="40px" style="float:right"/>
+
+MIT License | [Monadical](https://monadical.com) SAS 2017 ([we're hiring!](https://monadical.com/apply))
+
