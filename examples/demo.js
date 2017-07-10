@@ -1,8 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import {WarpedTime} from '../main.js'
-import {TimeControls} from '../controls.js'
+import {WarpedTime, TimeControls} from '../src/main.js'
 
 window.time = new WarpedTime()
 
