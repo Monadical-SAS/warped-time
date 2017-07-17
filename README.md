@@ -1,10 +1,10 @@
-# warped-time: Control the progression of time [![npm version](https://badge.fury.io/js/redux-time.svg)](https://badge.fury.io/js/warped-time)  [![Github Stars](https://img.shields.io/github/stars/Monadical-SAS/warped-time.svg)](https://github.com/Monadical-SAS/redux-time) [![Twitter URL](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/thesquashSH)
+# warped-time: Control the progression of time [![npm version](https://badge.fury.io/js/warped-time.svg)](https://badge.fury.io/js/warped-time)  [![Github Stars](https://img.shields.io/github/stars/Monadical-SAS/warped-time.svg)](https://github.com/Monadical-SAS/warped-time) [![Twitter URL](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/thesquashSH)
 
 Simple Javascript library that provides an equivalent to `Date.getTime()` with variable progression speed.
 
 It has a hook to receive timestamps and estimated latency, which it uses to stay in sync with a backend server's time.
 
-**[LIVE DEMO](https://monadical-sas.github.io/redux-time/warped-time/examples/demo.html)**
+**[LIVE DEMO](https://monadical-sas.github.io/warped-time/examples/demo.html)**
 
 ```bash
 yarn add warped-time    # ⏱
