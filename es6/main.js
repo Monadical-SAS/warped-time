@@ -20,7 +20,7 @@ class WarpedTime {
         this.speed = 1
         this._lastTime = (new Date).getTime()
         this._currTime = this._lastTime
-        this._server_offset = 0
+        this.server_offset = 0
 
         if (speed !== undefined) {
             this.setSpeed(speed)
@@ -46,7 +46,7 @@ class WarpedTime {
     }
 
     getActualTime() {
-        return this.getSystemTime() + this._server_offset
+        return this.getSystemTime() + this.server_offset
     }
 
     setActualTime(server_time, duration) {
@@ -58,18 +58,18 @@ class WarpedTime {
             // TODO: test this gradual adjustment code
             const step_time = 10
             const total_steps = duration/step_time
-            const step_amt = (final_offset - this._server_offset)/total_steps
+            const step_amt = (final_offset - this.server_offset)/total_steps
             let step = 0
             const adjuster = () => {
-                this._server_offset += step_amt
+                this.server_offset += step_amt
                 step += 1
-                if (step < total_steps && this._server_offset != final_offset) {
+                if (step < total_steps && this.server_offset != final_offset) {
                     setTimemout(adjuster, 10)
                 }
             }
             return this.getActualTime()
         } else {
-            this._server_offset = final_offset
+            this.server_offset = final_offset
             return this.getActualTime()
         }
     }
