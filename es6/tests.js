@@ -18,16 +18,16 @@ const wt = new WarpedTime({
 })
 
 wt.setSpeed(2)
-assert(wt.speed === 2)
+assert(wt.speed === 2, 'expected 2, got ' + wt.speed)
 
 wt.setWarpedTime(5)
-assert(wt.getWarpedTime() === 5)
+assert(wt.getWarpedTime() === 5, 'expected 5, got ' + wt.getWarpedTime())
 
 time_source_mock.now = () => 110
 
 // should be 2 * 10 + 5
-assert(wt.getWarpedTime() === 25)
+assert(wt.getWarpedTime() === 25, 'expected 25, got ' + wt.getWarpedTime())
 
 
 wt.setActualTime(115)
-assert(wt.getActualTime() === 115)
+assert(wt.getActualTime() === 115, 'expected 115, got ' + wt.getActualTime())
