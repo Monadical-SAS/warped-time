@@ -15,10 +15,11 @@ import {TimeControls, TimeControlsComponent, ServerTimeControls} from './control
 
 
 class WarpedTime {
-    constructor(store=null, speed, server_time, warped_time) {
+    constructor({store, speed, server_time, warped_time, timeSource=Date}) {
         this.store = store
+        this.timeSource = timeSource
         this.speed = 1
-        this._lastTime = (new Date).getTime()
+        this._lastTime = timeSource.now()
         this._currTime = this._lastTime
         this.server_offset = 0
 
@@ -42,7 +43,7 @@ class WarpedTime {
     }
 
     getSystemTime() {
-        return (new Date).getTime()
+        return this.timeSource.now()
     }
 
     getActualTime() {
@@ -86,8 +87,8 @@ class WarpedTime {
             // TODO: gradual syncing not implemented yet
             debugger
         } else {
-            this._lastTime = timestamp
-            this._curTime = this.getActualTime()
+            this._lastTime = this.getActualTime()
+            this._currTime = timestamp
             return this.getWarpedTime()
         }
     }
