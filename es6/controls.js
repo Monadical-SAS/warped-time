@@ -31,18 +31,18 @@ export const TimeControlsComponent = ({
             style={{width: '70%', height: '10px', display: 'inline'}}/>
         ⏩ Forward
         <br/>
-        <Button onClick={setSpeed.bind(this, -100)}>-100x</Button> &nbsp;
         <Button onClick={setSpeed.bind(this, -10)}>-10x</Button> &nbsp;
         <Button onClick={setSpeed.bind(this, -1)}>-1x</Button> &nbsp;
         <Button onClick={setSpeed.bind(this, -0.1)}>-0.1x</Button> &nbsp;
         <Button onClick={setSpeed.bind(this, -0.01)}>-0.01x</Button> &nbsp;
+        <Button onClick={setSpeed.bind(this, -0.001)}>-0.001x</Button> &nbsp;
         <Button bsStyle="danger" onClick={setSpeed.bind(this, 0)}>⏸</Button> &nbsp;
         <Button bsStyle="success" onClick={setSpeed.bind(this, 1)}>▶️</Button> &nbsp;
+        <Button onClick={setSpeed.bind(this, 0.001)}>+0.001x</Button> &nbsp;
         <Button onClick={setSpeed.bind(this, 0.01)}>+0.01x</Button> &nbsp;
         <Button onClick={setSpeed.bind(this, 0.1)}>+0.1x</Button> &nbsp;
         <Button onClick={setSpeed.bind(this, 1)}>1x</Button> &nbsp;
-        <Button onClick={setSpeed.bind(this, 10)}>+10x</Button> &nbsp;
-        <Button onClick={setSpeed.bind(this, 100)}>+100x</Button>
+        <Button onClick={setSpeed.bind(this, 10)}>+10x</Button>
     </ExpandableSection>
 }
 
