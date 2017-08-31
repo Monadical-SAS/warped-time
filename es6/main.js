@@ -5,7 +5,7 @@
         window.time = new WarpedTime(window.store)
 
         time.getWarpedTime() => 3241
-        window.store.dispatch({type: 'SET_TIME_WARP', speed: -1})
+        window.store.dispatch({type: 'SET_SPEED', speed: -1})
         time.getWarpedTime() = 3100
 
 */

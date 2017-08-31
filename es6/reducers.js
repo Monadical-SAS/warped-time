@@ -6,7 +6,7 @@ const initial_state = {
 
 export const time = (state=initial_state, action) => {
     switch (action.type) {
-        case 'SET_TIME_WARP':
+        case 'SET_SPEED':
             return {...state, speed: action.speed}
         default:
             return state
