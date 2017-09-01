@@ -97,13 +97,15 @@ class WarpedTime {
 
     handleStateChange() {
         this.setSpeed(select(this.store.getState()).speed)
+        this.setWarpedTime(select(this.store.getState()).warped_time)
     }
 }
 
 class Tick {
-    constructor(subscribers, animating) {
+    constructor(subscribers, running) {
         this.subscribers = subscribers || []
-        this.animating = animating || true
+        this.running = running || true
+        this.tick()
     }
     
     subscribe(fn) {
@@ -111,12 +113,16 @@ class Tick {
     }
 
     tick() {
-        this.subscribers.map((fn) => fn())
-        if (this.animating) {
+        this.subscribers.forEach((fn) => fn())
+        if (this.running) {
             window.requestAnimationFrame(::this.tick)
         }
+    }
+
+    stop() {
+        this.running = false
     }
 }
 
 
-export {WarpedTime, time, TimeControls, TimeControlsComponent}
+export {WarpedTime, Tick, time, TimeControls, TimeControlsComponent}
