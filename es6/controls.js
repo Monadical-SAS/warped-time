@@ -7,42 +7,47 @@ import {ExpandableSection} from 'monadical-react-components'
 const SOURCE = "https://github.com/Monadical-SAS/redux-time/blob/master/warped-time/controls.js"
 
 
-const FPS = (speed, current_timestamp, former_timestamp) =>
-    Math.round((speed * 1000)/(current_timestamp - former_timestamp)) || 0
+const FPS = (speed, current_timestamp, former_time) =>
+    Math.round((speed * 1000)/(current_timestamp - former_time)) || 0
 
 
 export const TimeControlsComponent = ({
-        genesis_timestamp, current_timestamp, former_timestamp, 
+        genesis_time, warped_time, former_time, 
         actual_time, speed, setSpeed, setWarpedTime, debug, expanded}) => {
 
-    return <ExpandableSection name="Time Controls" source={debug && SOURCE} expanded={expanded}>
+    console.log({genesis_time, warped_time, former_time, 
+        actual_time, speed, setSpeed, setWarpedTime, debug, expanded})
+
+    return <ExpandableSection name="Time Controls"
+                              source={debug && SOURCE}
+                              expanded={expanded}>
         Speed of Time: {speed}x |
-        Warped 🕐 {Math.round(current_timestamp, 0)} |
+        Warped 🕐 {Math.round(warped_time, 0)} |
         Actual 🕰 {actual_time} {speed == 0 ? '(updating paused)' : ''} |&nbsp;
-        {FPS(speed, current_timestamp, former_timestamp)} FPS
+        {FPS(speed, warped_time, former_time)} FPS
         <br/>
         Reverse ⏪
         <input type="range"
                onChange={(e) => setWarpedTime(e.target.value)}
-               min={genesis_timestamp}
+               min={genesis_time}
                max={actual_time}
-               step={(genesis_timestamp - actual_time) / 100}
-               value={current_timestamp}
+               step={(genesis_time - actual_time) / 100}
+               value={warped_time}
                style={{width: '70%', height: '10px', display: 'inline'}}/>
         ⏩ Forward
         <br/>
-        <Button onClick={setSpeed.bind(this, -10)}>-10x</Button> &nbsp;
-        <Button onClick={setSpeed.bind(this, -1)}>-1x</Button> &nbsp;
-        <Button onClick={setSpeed.bind(this, -0.1)}>-0.1x</Button> &nbsp;
-        <Button onClick={setSpeed.bind(this, -0.01)}>-0.01x</Button> &nbsp;
-        <Button onClick={setSpeed.bind(this, -0.001)}>-0.001x</Button> &nbsp;
-        <Button bsStyle="danger" onClick={setSpeed.bind(this, 0)}>⏸</Button> &nbsp;
-        <Button bsStyle="success" onClick={setSpeed.bind(this, 1)}>▶️</Button> &nbsp;
-        <Button onClick={setSpeed.bind(this, 0.001)}>+0.001x</Button> &nbsp;
-        <Button onClick={setSpeed.bind(this, 0.01)}>+0.01x</Button> &nbsp;
-        <Button onClick={setSpeed.bind(this, 0.1)}>+0.1x</Button> &nbsp;
-        <Button onClick={setSpeed.bind(this, 1)}>1x</Button> &nbsp;
-        <Button onClick={setSpeed.bind(this, 10)}>+10x</Button>
+        <Button onClick={() => setSpeed(-10)}>-10x</Button> &nbsp;
+        <Button onClick={() => setSpeed(-1)}>-1x</Button> &nbsp;
+        <Button onClick={() => setSpeed(-0.1)}>-0.1x</Button> &nbsp;
+        <Button onClick={() => setSpeed(-0.01)}>-0.01x</Button> &nbsp;
+        <Button onClick={() => setSpeed(-0.001)}>-0.001x</Button> &nbsp;
+        <Button bsStyle="danger" onClick={() => setSpeed(0)}>⏸</Button> &nbsp;
+        <Button bsStyle="success" onClick={() => setSpeed(1)}>▶️</Button> &nbsp;
+        <Button onClick={() => setSpeed(0.001)}>+0.001x</Button> &nbsp;
+        <Button onClick={() => setSpeed(0.01)}>+0.01x</Button> &nbsp;
+        <Button onClick={() => setSpeed(0.1)}>+0.1x</Button> &nbsp;
+        <Button onClick={() => setSpeed(1)}>1x</Button> &nbsp;
+        <Button onClick={() => setSpeed(10)}>+10x</Button>
     </ExpandableSection>
 }
 
@@ -50,51 +55,35 @@ export const TimeControlsComponent = ({
 export class TimeControls extends React.Component {
     constructor(props) {
         super(props)
-        this.time = this.props.time
-        this.state = {
-            genesis_timestamp: this.time.getWarpedTime(),
+        this.time = props.time
+        this.state = {}
+        props.tick.subscribe(::this.tick)
+    }
+
+    computeState() {
+        return {
             speed: this.time.speed,
-            current_timestamp: this.time.getWarpedTime(),
-            former_timestamp: this.time.getWarpedTime() - 20,
+            former_time: this.state.warped_time,
+            genesis_time: this.time.genesis_time,
+            warped_time: this.time.getWarpedTime(),
+            actual_time: this.time.getActualTime(),
         }
     }
-    componentDidMount() {
-        this.animating = true
-        this.tick()
-    }
-    componentWillUnmount() {
-        this.animating = false
-    }
+
     tick() {
-        this.setState({
-            current_timestamp: this.time.getWarpedTime(),
-            former_timestamp: this.state.current_timestamp,
-        })
-        if (this.animating) {
-            window.requestAnimationFrame(::this.tick)
-        }
+        this.setState(this.computeState())
     }
-    setSpeed(speed) {
-        this.time.setSpeed(speed)
-        this.setState({...this.state, speed})
-    }
-    setWarpedTime(time) {
-        this.time.setWarpedTime(time)
-        this.setState({
-            ...this.state,
-            current_timestamp: this.time.getWarpedTime(),
-            former_timestamp: this.time.getWarpedTime() - 20,
-        })
-    }
+  
     render() {
         return <TimeControlsComponent
                 speed={this.state.speed}
-                genesis_timestamp={this.state.genesis_timestamp}
-                current_timestamp={this.state.current_timestamp}
-                former_timestamp={this.state.former_timestamp}
-                actual_time={(new Date).getTime()}
-                setSpeed={::this.setSpeed}
-                setWarpedTime={::this.setWarpedTime}
+                former_time={this.state.former_time}
+                genesis_time={this.state.genesis_time}
+                warped_time={this.state.warped_time}
+                actual_time={this.state.actual_time}
+
+                setSpeed={::this.time.setSpeed}
+                setWarpedTime={::this.time.setWarpedTime}
                 debug={this.props.debug}
                 expanded={this.props.expanded}/>
     }
