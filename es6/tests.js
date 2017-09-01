@@ -1,5 +1,7 @@
 import {WarpedTime} from './main.js'
 
+import {TimeControls} from './controls.js'
+
 // util functions
 const assert = (val, error_msg) => {
     if (!val) {
@@ -19,6 +21,11 @@ const start_time = Date.now()
 const time_passed = () => Date.now() - start_time
 
 const wt1 = new WarpedTime({})
+
+assert_fuzzy_equal_time(wt1.genesis_time, start_time,
+                        'wt.genesis_time - start_time == '
+                        + (wt1.genesis_time - start_time)
+                        + ' but should be ~equal')
 
 assert_fuzzy_equal_time(wt1.getWarpedTime(), Date.now(),
                         'wt.getWarpedTime() - Date.now() == '

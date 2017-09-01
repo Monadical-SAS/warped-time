@@ -67,7 +67,7 @@ export class TimeControls extends React.Component {
     }
     tick() {
         this.setState({
-            current_timestamp: this.props.time.getWarpedTime(),
+            current_timestamp: this.time.getWarpedTime(),
             former_timestamp: this.state.current_timestamp,
         })
         if (this.animating) {
@@ -82,20 +82,20 @@ export class TimeControls extends React.Component {
         this.time.setWarpedTime(time)
         this.setState({
             ...this.state,
-            current_timestamp: time,
-            former_timestamp: time - 20,
+            current_timestamp: this.time.getWarpedTime(),
+            former_timestamp: this.time.getWarpedTime() - 20,
         })
     }
     render() {
         return <TimeControlsComponent
-            speed={this.state.speed}
-            genesis_timestamp={this.state.genesis_timestamp}
-            current_timestamp={this.state.current_timestamp}
-            former_timestamp={this.state.former_timestamp}
-            actual_time={(new Date).getTime()}
-            setSpeed={::this.setSpeed}
-            setWarpedTime={::this.setWarpedTime}
-            debug={this.props.debug}
-            expanded={this.props.expanded}/>
+                speed={this.state.speed}
+                genesis_timestamp={this.state.genesis_timestamp}
+                current_timestamp={this.state.current_timestamp}
+                former_timestamp={this.state.former_timestamp}
+                actual_time={(new Date).getTime()}
+                setSpeed={::this.setSpeed}
+                setWarpedTime={::this.setWarpedTime}
+                debug={this.props.debug}
+                expanded={this.props.expanded}/>
     }
 }

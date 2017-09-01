@@ -15,7 +15,7 @@ import {TimeControls, TimeControlsComponent, ServerTimeControls} from './control
 
 
 class WarpedTime {
-    constructor({store, speed, server_time, warped_time, timeSource=Date}) {
+    constructor({store, speed, server_time, warped_time, genesis_time, timeSource=Date}) {
         this.store = store
         this.timeSource = timeSource
         this.speed = 1
@@ -32,6 +32,7 @@ class WarpedTime {
         if (warped_time !== undefined) {
             this.setWarpedTime(warped_time)
         }
+        this.genesis_time = genesis_time || this.getWarpedTime()
 
         if (store) {
             this.store.subscribe(this.handleStateChange.bind(this))
