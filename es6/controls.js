@@ -76,15 +76,15 @@ export class TimeControls extends React.Component {
   
     render() {
         return <TimeControlsComponent
-                speed={this.state.speed}
-                former_time={this.state.former_time}
-                genesis_time={this.state.genesis_time}
-                warped_time={this.state.warped_time}
-                actual_time={this.state.actual_time}
+                    speed={this.state.speed}
+                    former_time={this.state.former_time}
+                    genesis_time={this.state.genesis_time}
+                    warped_time={this.state.warped_time}
+                    actual_time={this.state.actual_time}
 
-                setSpeed={::this.time.setSpeed}
-                setWarpedTime={::this.time.setWarpedTime}
-                debug={this.props.debug}
-                expanded={this.props.expanded}/>
+                    setSpeed={::this.time.setSpeed}
+                    setWarpedTime={::this.time.setWarpedTime}
+                    debug={this.props.debug}
+                    expanded={this.props.expanded}/>
     }
 }

@@ -129,7 +129,6 @@ setTimeout(
                                   + ' but should be ~0.\n'
                                   + `warped_time: ${warped_time}`
                                   + `, t: ${t}, delay: ${delay}, speed: ${speed}`)
+        tick.stop()
     }, delay
 )
-
-tick.stop()
