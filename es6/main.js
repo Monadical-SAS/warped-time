@@ -41,6 +41,7 @@ class WarpedTime {
     }
 
     setSpeed(speed) {
+        raise_if_not_number(speed, '@WarpedTime.setSpeed')
         this.speed = speed
     }
 
@@ -53,6 +54,7 @@ class WarpedTime {
     }
 
     setActualTime(server_time, duration) {
+        raise_if_not_number(server_time, '@WarpedTime.setActualTime')
         const system_time = this.getSystemTime()
         const final_offset = server_time - system_time
 
@@ -85,6 +87,7 @@ class WarpedTime {
     }
 
     setWarpedTime(timestamp, duration) {
+        raise_if_not_number(timestamp, '@WarpedTime.setWarpedTime')
         if (duration) {
             // TODO: gradual syncing not implemented yet
             debugger
@@ -121,6 +124,12 @@ class Tick {
 
     stop() {
         this.running = false
+    }
+}
+
+const raise_if_not_number = (n, msg) => {
+    if (!(typeof n === 'number')) {
+        throw `Expected a number but got ${typeof n}.${msg? '\n' + msg : ''}`
     }
 }
 

@@ -15,9 +15,6 @@ export const TimeControlsComponent = ({
         genesis_time, warped_time, former_time, 
         actual_time, speed, setSpeed, setWarpedTime, debug, expanded}) => {
 
-    console.log({genesis_time, warped_time, former_time, 
-        actual_time, speed, setSpeed, setWarpedTime, debug, expanded})
-
     return <ExpandableSection name="Time Controls"
                               source={debug && SOURCE}
                               expanded={expanded}>
@@ -28,7 +25,7 @@ export const TimeControlsComponent = ({
         <br/>
         Reverse ⏪
         <input type="range"
-               onChange={(e) => setWarpedTime(e.target.value)}
+               onChange={(e) => setWarpedTime(Number(e.target.value))}
                min={genesis_time}
                max={actual_time}
                step={(genesis_time - actual_time) / 100}
