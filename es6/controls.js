@@ -14,6 +14,7 @@ const FPS = (speed, current_timestamp, former_timestamp) =>
 export const TimeControlsComponent = ({
         genesis_timestamp, current_timestamp, former_timestamp, 
         actual_time, speed, setSpeed, setWarpedTime, debug, expanded}) => {
+
     return <ExpandableSection name="Time Controls" source={debug && SOURCE} expanded={expanded}>
         Speed of Time: {speed}x |
         Warped 🕐 {Math.round(current_timestamp, 0)} |
@@ -21,14 +22,13 @@ export const TimeControlsComponent = ({
         {FPS(speed, current_timestamp, former_timestamp)} FPS
         <br/>
         Reverse ⏪
-        <input
-            type="range"
-            onChange={(e) => setWarpedTime(e.target.value)}
-            min={genesis_timestamp}
-            max={actual_time}
-            step={(genesis_timestamp - actual_time) / 100}
-            value={current_timestamp}
-            style={{width: '70%', height: '10px', display: 'inline'}}/>
+        <input type="range"
+               onChange={(e) => setWarpedTime(e.target.value)}
+               min={genesis_timestamp}
+               max={actual_time}
+               step={(genesis_timestamp - actual_time) / 100}
+               value={current_timestamp}
+               style={{width: '70%', height: '10px', display: 'inline'}}/>
         ⏩ Forward
         <br/>
         <Button onClick={setSpeed.bind(this, -10)}>-10x</Button> &nbsp;
@@ -50,7 +50,7 @@ export const TimeControlsComponent = ({
 export class TimeControls extends React.Component {
     constructor(props) {
         super(props)
-        this.time = this.props.time || window.time
+        this.time = this.props.time
         this.state = {
             genesis_timestamp: this.time.getWarpedTime(),
             speed: this.time.speed,
