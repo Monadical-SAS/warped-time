@@ -15,7 +15,8 @@ import {TimeControls, TimeControlsComponent, ServerTimeControls} from './control
 
 
 class WarpedTime {
-    constructor({store, speed, server_time, warped_time, genesis_time, timeSource=Date}) {
+    constructor({store, speed, server_time, warped_time,
+                 genesis_time, timeSource=Date}={}) {
         this.store = store
         this.timeSource = timeSource
         this.speed = 1
@@ -98,5 +99,24 @@ class WarpedTime {
         this.setSpeed(select(this.store.getState()).speed)
     }
 }
+
+class Tick {
+    constructor(subscribers, animating) {
+        this.subscribers = subscribers || []
+        this.animating = animating || true
+    }
+    
+    subscribe(fn) {
+        this.subscribers.push(fn)
+    }
+
+    tick() {
+        this.subscribers.map((fn) => fn())
+        if (this.animating) {
+            window.requestAnimationFrame(::this.tick)
+        }
+    }
+}
+
 
 export {WarpedTime, time, TimeControls, TimeControlsComponent}

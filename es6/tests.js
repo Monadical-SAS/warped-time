@@ -83,3 +83,14 @@ assert(wt3.getWarpedTime() === 25, 'expected 25, got ' + wt3.getWarpedTime())
 
 wt3.setActualTime(115)
 assert(wt3.getActualTime() === 115, 'expected 115, got ' + wt3.getActualTime())
+
+
+
+// Test TimeControls class
+const props = {time: new WarpedTime()}
+const controls = TimeControls(props)
+
+controls.setWarpedTime(100)
+assert_fuzzy_equal_time(controls.getWarpedTime(), 100,
+                        'expected 100, got ' + controls.getWarpedTime())
+
