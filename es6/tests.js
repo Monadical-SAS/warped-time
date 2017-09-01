@@ -67,6 +67,7 @@ const time_source_mock = {
 const wt3 = new WarpedTime({
     timeSource: time_source_mock,
 })
+assert(wt3.genesis_time === 100, 'expected 5, got ' + wt3.genesis_time)
 
 wt3.setSpeed(2)
 assert(wt3.speed === 2, 'expected 2, got ' + wt3.speed)
