@@ -23,28 +23,58 @@ export const TimeControlsComponent = ({
         Actual 🕰 {actual_time} {speed == 0 ? '(updating paused)' : ''} |&nbsp;
         {FPS(speed, warped_time, former_time)} FPS
         <br/>
-        Reverse ⏪
-        <input type="range"
-               onChange={(e) => setWarpedTime(Number(e.target.value))}
-               min={genesis_time}
-               max={actual_time}
-               step={(genesis_time - actual_time) / 100}
-               value={warped_time}
-               style={{width: '70%', height: '10px', display: 'inline'}}/>
-        ⏩ Forward
+        <span style={{float:'right'}}> {actual_time} </span>
+        <span style={{float:'left'}}> {genesis_time} </span>
+        <div style={{width: '70%', display: 'block', 
+                    'margin-left': 'auto', 'margin-right': 'auto'}}>
+            <input type="range"
+                   onChange={(e) => {
+                        setSpeed(0)
+                        setWarpedTime(Number(e.target.value))
+                   }}
+                   min={genesis_time}
+                   max={actual_time}
+                   step={Math.min(30 - (actual_time - genesis_time) / 5, 30)}
+                   value={warped_time}
+                   style={{
+                        float: 'left', height: '10px', display: 'inline',
+                        width: `${Math.min((actual_time - genesis_time) / 150, 100)}%`,
+                    }}/>
+        </div>
         <br/>
-        <Button onClick={() => setSpeed(-10)}>-10x</Button> &nbsp;
-        <Button onClick={() => setSpeed(-1)}>-1x</Button> &nbsp;
-        <Button onClick={() => setSpeed(-0.1)}>-0.1x</Button> &nbsp;
-        <Button onClick={() => setSpeed(-0.01)}>-0.01x</Button> &nbsp;
-        <Button onClick={() => setSpeed(-0.001)}>-0.001x</Button> &nbsp;
-        <Button bsStyle="danger" onClick={() => setSpeed(0)}>⏸</Button> &nbsp;
-        <Button bsStyle="success" onClick={() => setSpeed(1)}>▶️</Button> &nbsp;
-        <Button onClick={() => setSpeed(0.001)}>+0.001x</Button> &nbsp;
-        <Button onClick={() => setSpeed(0.01)}>+0.01x</Button> &nbsp;
-        <Button onClick={() => setSpeed(0.1)}>+0.1x</Button> &nbsp;
-        <Button onClick={() => setSpeed(1)}>1x</Button> &nbsp;
-        <Button onClick={() => setSpeed(10)}>+10x</Button>
+        <Button bsStyle={speed === -10 ? 'success' : 'default'}
+                onClick={() => setSpeed(-10)}>-10x</Button> &nbsp;
+        
+        <Button bsStyle={speed === -1 ? 'success' : 'default'}
+                onClick={() => setSpeed(-1)}>-1x</Button> &nbsp;
+        
+        <Button bsStyle={speed === -0.1 ? 'success' : 'default'}
+                onClick={() => setSpeed(-0.1)}>-0.1x</Button> &nbsp;
+        
+        <Button bsStyle={speed === -0.01 ? 'success' : 'default'}
+                onClick={() => setSpeed(-0.01)}>-0.01x</Button> &nbsp;
+        
+        <Button bsStyle={speed === -0.001 ? 'success' : 'default'}
+                onClick={() => setSpeed(-0.001)}>-0.001x</Button> &nbsp;
+
+        {speed === 0 ?
+            <Button bsStyle="success" onClick={() => setSpeed(1)}>▶️</Button>
+          : <Button bsStyle="danger" onClick={() => setSpeed(0)}>⏸</Button>} &nbsp;
+
+        <Button bsStyle={speed === 0.001 ? 'success' : 'default'}
+                onClick={() => setSpeed(0.001)}>+0.001x</Button> &nbsp;
+
+        <Button bsStyle={speed === 0.01 ? 'success' : 'default'}
+                onClick={() => setSpeed(0.01)}>+0.01x</Button> &nbsp;
+
+        <Button bsStyle={speed === 0.1 ? 'success' : 'default'}
+                onClick={() => setSpeed(0.1)}>+0.1x</Button> &nbsp;
+
+        <Button bsStyle={speed === 1 ? 'success' : 'default'}
+                onClick={() => setSpeed(1)}>1x</Button> &nbsp;
+
+        <Button bsStyle={speed === 10 ? 'success' : 'default'}
+                onClick={() => setSpeed(10)}>+10x</Button>
     </ExpandableSection>
 }
 
