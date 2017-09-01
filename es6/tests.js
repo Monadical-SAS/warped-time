@@ -46,10 +46,11 @@ setTimeout(
 
 const wt2 = new WarpedTime()
 const t = 500
-wt2.setWarpedTime(t)
 const speed = 5
-wt2.setSpeed(speed)
 const delay = 100
+wt2.setWarpedTime(t)
+wt2.setSpeed(speed)
+
 setTimeout(
     () => assert_fuzzy_equal_time(wt2.getWarpedTime(), t + (delay * speed),
                                   'wt.getWarpedTime() - t + (delay * speed) == '
@@ -57,7 +58,6 @@ setTimeout(
                                   + ' but should be ~0')
     , delay
 )
-
 
 // Tests with time_source mocked out
 const time_source_mock = {
@@ -119,16 +119,24 @@ controls.time.setWarpedTime(t)
 assert_fuzzy_equal_time(controls.time.getWarpedTime(), t,
                         `expected ${t}, got ${controls.time.getWarpedTime()}`)
 
-controls.time.setSpeed(speed)
-setTimeout(
-    () => {
+
+const testControlsAfterNDelays = (n, wt, t, delay, recursive_call) => {
+    if (recursive_call) {
         const warped_time = controls.state.warped_time
         assert_fuzzy_equal_time(warped_time, t + (delay * speed),
                                   'warped_time - t + (delay * speed) == '
                                   + (warped_time - (t + (delay * speed)))
                                   + ' but should be ~0.\n'
                                   + `warped_time: ${warped_time}`
-                                  + `, t: ${t}, delay: ${delay}, speed: ${speed}`)
+                                  + `, t: ${t}, delay: ${delay}, speed: ${speed}`
+                                  + `\nn is ${n}.`)
+    }
+    controls.time.setSpeed(speed)
+    controls.time.setWarpedTime(t)
+    if (n > 0){
+        setTimeout(testControlsAfterNDelays, delay, n - 1, wt, t, delay, true)
+    } else {
         tick.stop()
-    }, delay
-)
+    }
+}
+testControlsAfterNDelays(20, controls, 10, 10, false)
