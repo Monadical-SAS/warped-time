@@ -78,13 +78,42 @@ export const TimeControlsComponent = ({
     </ExpandableSection>
 }
 
+export class Ticker {
+    constructor(subscribers, running) {
+        this.subscribers = subscribers || []
+        this.running = running || true
+        this.tick()
+    }
+    
+    subscribe(fn) {
+        this.subscribers.push(fn)
+    }
+
+    tick() {
+        this.subscribers.forEach((fn) => fn())
+        if (this.running) {
+            window.requestAnimationFrame(::this.tick)
+        }
+    }
+
+    stop() {
+        this.running = false
+    }
+}
+
 // auto-self-updating TimeControls component using requestAnimationFrame
 export class TimeControls extends React.Component {
     constructor(props) {
         super(props)
         this.time = props.time
         this.state = {}
-        props.tick.subscribe(::this.tick)
+        if (props.tick === undefined) {
+            this.ticker = new Ticker()
+            this.tick.subscribe(::this.tick)
+        } else {
+            this.ticker = props.tick
+            props.tick.subscribe(::this.tick)
+        }
     }
 
     computeState() {

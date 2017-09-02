@@ -11,7 +11,7 @@
 */
 
 import {select, time} from './reducers.js'
-import {TimeControls, TimeControlsComponent, ServerTimeControls} from './controls.js'
+import {TimeControls, TimeControlsComponent, Ticker} from './controls.js'
 
 
 class WarpedTime {
@@ -106,29 +106,6 @@ class WarpedTime {
     }
 }
 
-class Tick {
-    constructor(subscribers, running) {
-        this.subscribers = subscribers || []
-        this.running = running || true
-        this.tick()
-    }
-    
-    subscribe(fn) {
-        this.subscribers.push(fn)
-    }
-
-    tick() {
-        this.subscribers.forEach((fn) => fn())
-        if (this.running) {
-            window.requestAnimationFrame(::this.tick)
-        }
-    }
-
-    stop() {
-        this.running = false
-    }
-}
-
 const raise_if_not_number = (n, msg) => {
     if (!(typeof n === 'number')) {
         throw `Expected a number but got ${typeof n}.${msg? '\n' + msg : ''}`
@@ -136,4 +113,4 @@ const raise_if_not_number = (n, msg) => {
 }
 
 
-export {WarpedTime, Tick, time, TimeControls, TimeControlsComponent}
+export {WarpedTime, Ticker, time, TimeControls, TimeControlsComponent}

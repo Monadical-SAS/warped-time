@@ -1,4 +1,4 @@
-import {WarpedTime, Tick} from './main.js'
+import {WarpedTime, Ticker} from './main.js'
 
 import {TimeControls} from './controls.js'
 
@@ -86,7 +86,7 @@ assert(wt3.getActualTime() === 115, `expected 115, got ${wt3.getActualTime()}`)
 
 
 // Test TimeControls class
-class TestableTick extends Tick {
+class TestableTicker extends Ticker {
     tick() {
         this.subscribers.forEach((fn) => fn())
         if (this.running) {
@@ -102,7 +102,7 @@ class TestableTimeControls extends TimeControls {
 }
 
 
-const tick = new TestableTick()
+const tick = new TestableTicker()
 assert(Array.isArray(tick.subscribers), `expected an Array, got ${typeof(tick.subscribers)}`)
 assert(tick.running === true, `expected true, got ${tick.running}`)
 
@@ -121,6 +121,8 @@ assert_fuzzy_equal_time(controls.time.getWarpedTime(), t,
 
 
 const testControlsAfterNDelays = (n, wt, t, delay, recursive_call) => {
+    // babel-node is slow and the first iteration of this tests sometimes
+    //  fails as a result
     if (recursive_call) {
         const warped_time = controls.state.warped_time
         assert_fuzzy_equal_time(warped_time, t + (delay * speed),
