@@ -34,6 +34,7 @@ class WarpedTime {
             this.setWarpedTime(warped_time)
         }
         this.genesis_time = genesis_time || this.getWarpedTime()
+        this.most_future_time = this.getWarpedTime()
 
         if (store) {
             this.store.subscribe(this.handleStateChange.bind(this))
@@ -83,6 +84,7 @@ class WarpedTime {
         const actualTime = this.getActualTime()
         this._currTime += (actualTime - this._lastTime) * this.speed
         this._lastTime = actualTime
+        this.most_future_time = Math.max(this.most_future_time, this._currTime)
         return this._currTime
     }
 

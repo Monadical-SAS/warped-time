@@ -12,7 +12,7 @@ const FPS = (speed, current_timestamp, former_time) =>
 
 
 export const TimeControlsComponent = ({
-        genesis_time, warped_time, former_time, 
+        genesis_time, warped_time, former_time, most_future_time,
         actual_time, speed, setSpeed, setWarpedTime, debug, expanded}) => {
 
     return <ExpandableSection name="Time Controls"
@@ -33,12 +33,12 @@ export const TimeControlsComponent = ({
                         setWarpedTime(Number(e.target.value))
                    }}
                    min={genesis_time}
-                   max={actual_time}
-                   step={Math.min(30 - (actual_time - genesis_time) / 5, 30)}
+                   max={most_future_time}
+                   step={Math.min(30 - (most_future_time - genesis_time) / 5, 30)}
                    value={warped_time}
                    style={{
                         float: 'left', height: '10px', display: 'inline',
-                        width: `${Math.min((actual_time - genesis_time) / 150, 100)}%`,
+                        width: `${Math.min((most_future_time - genesis_time) / 150, 100)}%`,
                     }}/>
         </div>
         <br/>
@@ -94,6 +94,7 @@ export class TimeControls extends React.Component {
             genesis_time: this.time.genesis_time,
             warped_time: this.time.getWarpedTime(),
             actual_time: this.time.getActualTime(),
+            most_future_time: this.time.most_future_time
         }
     }
 
@@ -108,6 +109,7 @@ export class TimeControls extends React.Component {
                     genesis_time={this.state.genesis_time}
                     warped_time={this.state.warped_time}
                     actual_time={this.state.actual_time}
+                    most_future_time={this.state.most_future_time}
 
                     setSpeed={::this.time.setSpeed}
                     setWarpedTime={::this.time.setWarpedTime}
