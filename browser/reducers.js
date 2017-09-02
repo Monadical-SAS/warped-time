@@ -17,7 +17,8 @@ var select = exports.select = function select(state) {
 };
 
 var initial_state = {
-    speed: 1
+    speed: 1,
+    warped_time: Date.now()
 };
 
 var time = exports.time = function time() {
@@ -25,8 +26,10 @@ var time = exports.time = function time() {
     var action = arguments[1];
 
     switch (action.type) {
-        case 'SET_TIME_WARP':
+        case 'SET_SPEED':
             return (0, _extends3.default)({}, state, { speed: action.speed });
+        case 'SET_WARPED_TIME':
+            return (0, _extends3.default)({}, state, { warped_time: action.warped_time });
         default:
             return state;
     }

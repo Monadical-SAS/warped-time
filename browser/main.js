@@ -2,13 +2,9 @@
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+        value: true
 });
 exports.TimeControls = exports.TimeControlsComponent = undefined;
-
-var _extends2 = require('babel-runtime/helpers/extends');
-
-var _extends3 = _interopRequireDefault(_extends2);
 
 var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
@@ -46,131 +42,177 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var SOURCE = "https://github.com/Monadical-SAS/redux-time/blob/master/warped-time/controls.js";
 
-var FPS = function FPS(speed, current_timestamp, last_timestamp) {
-    return Math.round(speed * 1000 / (current_timestamp - last_timestamp)) || 0;
+var FPS = function FPS(speed, current_timestamp, former_time) {
+        return Math.round(speed * 1000 / (current_timestamp - former_time)) || 0;
 };
 
 var TimeControlsComponent = exports.TimeControlsComponent = function TimeControlsComponent(_ref) {
-    var current_timestamp = _ref.current_timestamp,
-        last_timestamp = _ref.last_timestamp,
-        speed = _ref.speed,
-        setSpeed = _ref.setSpeed,
-        debug = _ref.debug,
-        expanded = _ref.expanded;
+        var genesis_time = _ref.genesis_time,
+            warped_time = _ref.warped_time,
+            former_time = _ref.former_time,
+            most_future_time = _ref.most_future_time,
+            actual_time = _ref.actual_time,
+            speed = _ref.speed,
+            setSpeed = _ref.setSpeed,
+            setWarpedTime = _ref.setWarpedTime,
+            debug = _ref.debug,
+            expanded = _ref.expanded;
 
-    return (0, _jsx3.default)(_monadicalReactComponents.ExpandableSection, {
-        name: 'Time Controls',
-        source: debug && SOURCE,
-        expanded: expanded
-    }, void 0, 'Speed of Time: ', speed, 'x | Warped \uD83D\uDD50 ', Math.round(current_timestamp, 0), ' | Actual \uD83D\uDD70 ', new Date().getTime(), ' ', speed == 0 ? '(updating paused)' : '', ' |\xA0', FPS(speed, current_timestamp, last_timestamp), ' FPS', (0, _jsx3.default)('br', {}), 'Reverse \u23EA', (0, _jsx3.default)('input', {
-        type: 'range',
-        onChange: function onChange(e) {
-            return setSpeed(e.target.value);
-        },
-        min: -2,
-        max: 2,
-        step: 0.01,
-        value: speed,
-        style: { width: '70%', height: '10px', display: 'inline' }
-    }), '\u23E9 Forward', (0, _jsx3.default)('br', {}), (0, _jsx3.default)(_reactBootstrap.Button, {
-        onClick: setSpeed.bind(undefined, -100)
-    }, void 0, '-100x'), ' \xA0', (0, _jsx3.default)(_reactBootstrap.Button, {
-        onClick: setSpeed.bind(undefined, -10)
-    }, void 0, '-10x'), ' \xA0', (0, _jsx3.default)(_reactBootstrap.Button, {
-        onClick: setSpeed.bind(undefined, -1)
-    }, void 0, '-1x'), ' \xA0', (0, _jsx3.default)(_reactBootstrap.Button, {
-        onClick: setSpeed.bind(undefined, -0.1)
-    }, void 0, '-0.1x'), ' \xA0', (0, _jsx3.default)(_reactBootstrap.Button, {
-        onClick: setSpeed.bind(undefined, -0.01)
-    }, void 0, '-0.01x'), ' \xA0', (0, _jsx3.default)(_reactBootstrap.Button, {
-        bsStyle: 'danger',
-        onClick: setSpeed.bind(undefined, 0)
-    }, void 0, '\u23F8'), ' \xA0', (0, _jsx3.default)(_reactBootstrap.Button, {
-        bsStyle: 'success',
-        onClick: setSpeed.bind(undefined, 1)
-    }, void 0, '\u25B6\uFE0F'), ' \xA0', (0, _jsx3.default)(_reactBootstrap.Button, {
-        onClick: setSpeed.bind(undefined, 0.01)
-    }, void 0, '+0.01x'), ' \xA0', (0, _jsx3.default)(_reactBootstrap.Button, {
-        onClick: setSpeed.bind(undefined, 0.1)
-    }, void 0, '+0.1x'), ' \xA0', (0, _jsx3.default)(_reactBootstrap.Button, {
-        onClick: setSpeed.bind(undefined, 1)
-    }, void 0, '1x'), ' \xA0', (0, _jsx3.default)(_reactBootstrap.Button, {
-        onClick: setSpeed.bind(undefined, 10)
-    }, void 0, '+10x'), ' \xA0', (0, _jsx3.default)(_reactBootstrap.Button, {
-        onClick: setSpeed.bind(undefined, 100)
-    }, void 0, '+100x'));
+
+        return (0, _jsx3.default)(_monadicalReactComponents.ExpandableSection, {
+                name: 'Time Controls',
+                source: debug && SOURCE,
+                expanded: expanded
+        }, void 0, 'Speed of Time: ', speed, 'x | Warped \uD83D\uDD50 ', Math.round(warped_time, 0), ' | Actual \uD83D\uDD70 ', actual_time, ' ', speed == 0 ? '(updating paused)' : '', ' |\xA0', FPS(speed, warped_time, former_time), ' FPS', (0, _jsx3.default)('br', {}), (0, _jsx3.default)('span', {
+                style: { float: 'right' }
+        }, void 0, ' ', actual_time, ' '), (0, _jsx3.default)('span', {
+                style: { float: 'left' }
+        }, void 0, ' ', genesis_time, ' '), (0, _jsx3.default)('div', {
+                style: { width: '70%', display: 'block',
+                        'margin-left': 'auto', 'margin-right': 'auto' }
+        }, void 0, (0, _jsx3.default)('input', {
+                type: 'range',
+                onChange: function onChange(e) {
+                        setSpeed(0);
+                        setWarpedTime(Number(e.target.value));
+                },
+                min: genesis_time,
+                max: most_future_time,
+                step: Math.min(30 - (most_future_time - genesis_time) / 5, 30),
+                value: warped_time,
+                style: {
+                        float: 'left', height: '10px', display: 'inline',
+                        width: Math.min((most_future_time - genesis_time) / 150, 100) + '%'
+                }
+        })), (0, _jsx3.default)('br', {}), (0, _jsx3.default)(_reactBootstrap.Button, {
+                bsStyle: speed === -10 ? 'success' : 'default',
+                onClick: function onClick() {
+                        return setSpeed(-10);
+                }
+        }, void 0, '-10x'), ' \xA0', (0, _jsx3.default)(_reactBootstrap.Button, {
+                bsStyle: speed === -1 ? 'success' : 'default',
+                onClick: function onClick() {
+                        return setSpeed(-1);
+                }
+        }, void 0, '-1x'), ' \xA0', (0, _jsx3.default)(_reactBootstrap.Button, {
+                bsStyle: speed === -0.1 ? 'success' : 'default',
+                onClick: function onClick() {
+                        return setSpeed(-0.1);
+                }
+        }, void 0, '-0.1x'), ' \xA0', (0, _jsx3.default)(_reactBootstrap.Button, {
+                bsStyle: speed === -0.01 ? 'success' : 'default',
+                onClick: function onClick() {
+                        return setSpeed(-0.01);
+                }
+        }, void 0, '-0.01x'), ' \xA0', (0, _jsx3.default)(_reactBootstrap.Button, {
+                bsStyle: speed === -0.001 ? 'success' : 'default',
+                onClick: function onClick() {
+                        return setSpeed(-0.001);
+                }
+        }, void 0, '-0.001x'), ' \xA0', speed === 0 ? (0, _jsx3.default)(_reactBootstrap.Button, {
+                bsStyle: 'success',
+                onClick: function onClick() {
+                        return setSpeed(1);
+                }
+        }, void 0, '\u25B6\uFE0F') : (0, _jsx3.default)(_reactBootstrap.Button, {
+                bsStyle: 'danger',
+                onClick: function onClick() {
+                        return setSpeed(0);
+                }
+        }, void 0, '\u23F8'), ' \xA0', (0, _jsx3.default)(_reactBootstrap.Button, {
+                bsStyle: speed === 0.001 ? 'success' : 'default',
+                onClick: function onClick() {
+                        return setSpeed(0.001);
+                }
+        }, void 0, '+0.001x'), ' \xA0', (0, _jsx3.default)(_reactBootstrap.Button, {
+                bsStyle: speed === 0.01 ? 'success' : 'default',
+                onClick: function onClick() {
+                        return setSpeed(0.01);
+                }
+        }, void 0, '+0.01x'), ' \xA0', (0, _jsx3.default)(_reactBootstrap.Button, {
+                bsStyle: speed === 0.1 ? 'success' : 'default',
+                onClick: function onClick() {
+                        return setSpeed(0.1);
+                }
+        }, void 0, '+0.1x'), ' \xA0', (0, _jsx3.default)(_reactBootstrap.Button, {
+                bsStyle: speed === 1 ? 'success' : 'default',
+                onClick: function onClick() {
+                        return setSpeed(1);
+                }
+        }, void 0, '1x'), ' \xA0', (0, _jsx3.default)(_reactBootstrap.Button, {
+                bsStyle: speed === 10 ? 'success' : 'default',
+                onClick: function onClick() {
+                        return setSpeed(10);
+                }
+        }, void 0, '+10x'));
 };
 
 // auto-self-updating TimeControls component using requestAnimationFrame
 
 var TimeControls = exports.TimeControls = function (_React$Component) {
-    (0, _inherits3.default)(TimeControls, _React$Component);
+        (0, _inherits3.default)(TimeControls, _React$Component);
 
-    function TimeControls(props) {
-        (0, _classCallCheck3.default)(this, TimeControls);
+        function TimeControls(props) {
+                (0, _classCallCheck3.default)(this, TimeControls);
 
-        var _this = (0, _possibleConstructorReturn3.default)(this, (TimeControls.__proto__ || (0, _getPrototypeOf2.default)(TimeControls)).call(this, props));
+                var _this = (0, _possibleConstructorReturn3.default)(this, (TimeControls.__proto__ || (0, _getPrototypeOf2.default)(TimeControls)).call(this, props));
 
-        _this.time = _this.props.time || window.time;
-        _this.state = {
-            speed: _this.time.speed,
-            current_timestamp: _this.time.getWarpedTime(),
-            last_timestamp: _this.time.getWarpedTime() - 20
-        };
-        return _this;
-    }
+                _this.time = props.time;
+                _this.state = {};
+                props.tick.subscribe(_this.tick.bind(_this));
+                return _this;
+        }
 
-    (0, _createClass3.default)(TimeControls, [{
-        key: 'componentDidMount',
-        value: function componentDidMount() {
-            this.animating = true;
-            this.tick();
-        }
-    }, {
-        key: 'componentWillUnmount',
-        value: function componentWillUnmount() {
-            this.animating = false;
-        }
-    }, {
-        key: 'tick',
-        value: function tick() {
-            this.setState({
-                current_timestamp: this.props.time.getWarpedTime(),
-                last_timestamp: this.state.current_timestamp
-            });
-            if (this.animating) {
-                window.requestAnimationFrame(this.tick.bind(this));
-            }
-        }
-    }, {
-        key: 'setSpeed',
-        value: function setSpeed(speed) {
-            this.time.setSpeed(speed);
-            this.setState((0, _extends3.default)({}, this.state, { speed: speed }));
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            return (0, _jsx3.default)(TimeControlsComponent, {
-                speed: this.state.speed,
-                current_timestamp: this.state.current_timestamp,
-                last_timestamp: this.state.last_timestamp,
-                setSpeed: this.setSpeed.bind(this),
-                debug: this.props.debug,
-                expanded: this.props.expanded
-            });
-        }
-    }]);
-    return TimeControls;
+        (0, _createClass3.default)(TimeControls, [{
+                key: 'computeState',
+                value: function computeState() {
+                        return {
+                                speed: this.time.speed,
+                                former_time: this.state.warped_time,
+                                genesis_time: this.time.genesis_time,
+                                warped_time: this.time.getWarpedTime(),
+                                actual_time: this.time.getActualTime(),
+                                most_future_time: this.time.most_future_time
+                        };
+                }
+        }, {
+                key: 'tick',
+                value: function tick() {
+                        this.setState(this.computeState());
+                }
+        }, {
+                key: 'render',
+                value: function render() {
+                        var _context;
+
+                        return (0, _jsx3.default)(TimeControlsComponent, {
+                                speed: this.state.speed,
+                                former_time: this.state.former_time,
+                                genesis_time: this.state.genesis_time,
+                                warped_time: this.state.warped_time,
+                                actual_time: this.state.actual_time,
+                                most_future_time: this.state.most_future_time,
+                                setSpeed: (_context = this.time).setSpeed.bind(_context),
+                                setWarpedTime: (_context = this.time).setWarpedTime.bind(_context),
+                                debug: this.props.debug,
+                                expanded: this.props.expanded
+                        });
+                }
+        }]);
+        return TimeControls;
 }(_react2.default.Component);
 
-},{"babel-runtime/core-js/object/get-prototype-of":9,"babel-runtime/helpers/classCallCheck":15,"babel-runtime/helpers/createClass":16,"babel-runtime/helpers/extends":17,"babel-runtime/helpers/inherits":18,"babel-runtime/helpers/jsx":19,"babel-runtime/helpers/possibleConstructorReturn":21,"monadical-react-components":173,"react":455,"react-bootstrap":275}],2:[function(require,module,exports){
+},{"babel-runtime/core-js/object/get-prototype-of":9,"babel-runtime/helpers/classCallCheck":15,"babel-runtime/helpers/createClass":16,"babel-runtime/helpers/inherits":18,"babel-runtime/helpers/jsx":19,"babel-runtime/helpers/possibleConstructorReturn":21,"monadical-react-components":173,"react":455,"react-bootstrap":275}],2:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.TimeControlsComponent = exports.TimeControls = exports.time = exports.WarpedTime = undefined;
+exports.TimeControlsComponent = exports.TimeControls = exports.time = exports.Tick = exports.WarpedTime = undefined;
+
+var _typeof2 = require('babel-runtime/helpers/typeof');
+
+var _typeof3 = _interopRequireDefault(_typeof2);
 
 var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
 
@@ -193,22 +235,28 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
         window.time = new WarpedTime(window.store)
 
         time.getWarpedTime() => 3241
-        window.store.dispatch({type: 'SET_TIME_WARP', speed: -1})
+        window.store.dispatch({type: 'SET_SPEED', speed: -1})
         time.getWarpedTime() = 3100
 
 */
 
 var WarpedTime = function () {
     function WarpedTime() {
-        var store = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-        var speed = arguments[1];
-        var server_time = arguments[2];
-        var warped_time = arguments[3];
+        var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+            store = _ref.store,
+            speed = _ref.speed,
+            server_time = _ref.server_time,
+            warped_time = _ref.warped_time,
+            genesis_time = _ref.genesis_time,
+            _ref$timeSource = _ref.timeSource,
+            timeSource = _ref$timeSource === undefined ? Date : _ref$timeSource;
+
         (0, _classCallCheck3.default)(this, WarpedTime);
 
         this.store = store;
+        this.timeSource = timeSource;
         this.speed = 1;
-        this._lastTime = new Date().getTime();
+        this._lastTime = timeSource.now();
         this._currTime = this._lastTime;
         this.server_offset = 0;
 
@@ -221,6 +269,8 @@ var WarpedTime = function () {
         if (warped_time !== undefined) {
             this.setWarpedTime(warped_time);
         }
+        this.genesis_time = genesis_time || this.getWarpedTime();
+        this.most_future_time = this.getWarpedTime();
 
         if (store) {
             this.store.subscribe(this.handleStateChange.bind(this));
@@ -230,12 +280,13 @@ var WarpedTime = function () {
     (0, _createClass3.default)(WarpedTime, [{
         key: 'setSpeed',
         value: function setSpeed(speed) {
+            raise_if_not_number(speed, '@WarpedTime.setSpeed');
             this.speed = speed;
         }
     }, {
         key: 'getSystemTime',
         value: function getSystemTime() {
-            return new Date().getTime();
+            return this.timeSource.now();
         }
     }, {
         key: 'getActualTime',
@@ -247,6 +298,7 @@ var WarpedTime = function () {
         value: function setActualTime(server_time, duration) {
             var _this = this;
 
+            raise_if_not_number(server_time, '@WarpedTime.setActualTime');
             var system_time = this.getSystemTime();
             var final_offset = server_time - system_time;
 
@@ -276,17 +328,19 @@ var WarpedTime = function () {
             var actualTime = this.getActualTime();
             this._currTime += (actualTime - this._lastTime) * this.speed;
             this._lastTime = actualTime;
+            this.most_future_time = Math.max(this.most_future_time, this._currTime);
             return this._currTime;
         }
     }, {
         key: 'setWarpedTime',
         value: function setWarpedTime(timestamp, duration) {
+            raise_if_not_number(timestamp, '@WarpedTime.setWarpedTime');
             if (duration) {
                 // TODO: gradual syncing not implemented yet
                 debugger;
             } else {
-                this._lastTime = timestamp;
-                this._curTime = this.getActualTime();
+                this._lastTime = this.getActualTime();
+                this._currTime = timestamp;
                 return this.getWarpedTime();
             }
         }
@@ -294,17 +348,58 @@ var WarpedTime = function () {
         key: 'handleStateChange',
         value: function handleStateChange() {
             this.setSpeed((0, _reducers.select)(this.store.getState()).speed);
+            this.setWarpedTime((0, _reducers.select)(this.store.getState()).warped_time);
         }
     }]);
     return WarpedTime;
 }();
 
+var Tick = function () {
+    function Tick(subscribers, running) {
+        (0, _classCallCheck3.default)(this, Tick);
+
+        this.subscribers = subscribers || [];
+        this.running = running || true;
+        this.tick();
+    }
+
+    (0, _createClass3.default)(Tick, [{
+        key: 'subscribe',
+        value: function subscribe(fn) {
+            this.subscribers.push(fn);
+        }
+    }, {
+        key: 'tick',
+        value: function tick() {
+            this.subscribers.forEach(function (fn) {
+                return fn();
+            });
+            if (this.running) {
+                window.requestAnimationFrame(this.tick.bind(this));
+            }
+        }
+    }, {
+        key: 'stop',
+        value: function stop() {
+            this.running = false;
+        }
+    }]);
+    return Tick;
+}();
+
+var raise_if_not_number = function raise_if_not_number(n, msg) {
+    if (!(typeof n === 'number')) {
+        throw 'Expected a number but got ' + (typeof n === 'undefined' ? 'undefined' : (0, _typeof3.default)(n)) + '.' + (msg ? '\n' + msg : '');
+    }
+};
+
 exports.WarpedTime = WarpedTime;
+exports.Tick = Tick;
 exports.time = _reducers.time;
 exports.TimeControls = _controls.TimeControls;
 exports.TimeControlsComponent = _controls.TimeControlsComponent;
 
-},{"./controls.js":1,"./reducers.js":3,"babel-runtime/helpers/classCallCheck":15,"babel-runtime/helpers/createClass":16}],3:[function(require,module,exports){
+},{"./controls.js":1,"./reducers.js":3,"babel-runtime/helpers/classCallCheck":15,"babel-runtime/helpers/createClass":16,"babel-runtime/helpers/typeof":22}],3:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -323,7 +418,8 @@ var select = exports.select = function select(state) {
 };
 
 var initial_state = {
-    speed: 1
+    speed: 1,
+    warped_time: Date.now()
 };
 
 var time = exports.time = function time() {
@@ -331,8 +427,10 @@ var time = exports.time = function time() {
     var action = arguments[1];
 
     switch (action.type) {
-        case 'SET_TIME_WARP':
+        case 'SET_SPEED':
             return (0, _extends3.default)({}, state, { speed: action.speed });
+        case 'SET_WARPED_TIME':
+            return (0, _extends3.default)({}, state, { warped_time: action.warped_time });
         default:
             return state;
     }
