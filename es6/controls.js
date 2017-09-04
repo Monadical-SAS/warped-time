@@ -10,6 +10,11 @@ const SOURCE = "https://github.com/Monadical-SAS/redux-time/blob/master/warped-t
 const FPS = (speed, current_timestamp, former_time) =>
     Math.round((speed * 1000)/(current_timestamp - former_time)) || 0
 
+const SpeedButton = ({current_speed, speed, setSpeed}) =>
+    <Button bsStyle={current_speed === speed ? 'success' :'default'}
+            onClick={() => setSpeed(Number(speed))}>
+        {`${Number(speed) < 0 ? '+' : '-'}${speed}x`}
+    </Button>
 
 export const TimeControlsComponent = ({
         genesis_time, warped_time, former_time, most_future_time,
@@ -26,7 +31,7 @@ export const TimeControlsComponent = ({
         <span style={{float:'right'}}> {actual_time} </span>
         <span style={{float:'left'}}> {genesis_time} </span>
         <div style={{width: '70%', display: 'block', 
-                    'margin-left': 'auto', 'margin-right': 'auto'}}>
+                    'marginLeft': 'auto', 'marginRight': 'auto'}}>
             <input type="range"
                    onChange={(e) => {
                         setSpeed(0)
@@ -42,39 +47,21 @@ export const TimeControlsComponent = ({
                     }}/>
         </div>
         <br/>
-        <Button bsStyle={speed === -10 ? 'success' : 'default'}
-                onClick={() => setSpeed(-10)}>-10x</Button> &nbsp;
-        
-        <Button bsStyle={speed === -1 ? 'success' : 'default'}
-                onClick={() => setSpeed(-1)}>-1x</Button> &nbsp;
-        
-        <Button bsStyle={speed === -0.1 ? 'success' : 'default'}
-                onClick={() => setSpeed(-0.1)}>-0.1x</Button> &nbsp;
-        
-        <Button bsStyle={speed === -0.01 ? 'success' : 'default'}
-                onClick={() => setSpeed(-0.01)}>-0.01x</Button> &nbsp;
-        
-        <Button bsStyle={speed === -0.001 ? 'success' : 'default'}
-                onClick={() => setSpeed(-0.001)}>-0.001x</Button> &nbsp;
+        <SpeedButton current_speed={speed} speed='-10' setSpeed={setSpeed}/> &nbsp;
+        <SpeedButton current_speed={speed} speed='-1' setSpeed={setSpeed}/> &nbsp;
+        <SpeedButton current_speed={speed} speed='-0.1' setSpeed={setSpeed}/> &nbsp;
+        <SpeedButton current_speed={speed} speed='-0.01' setSpeed={setSpeed}/> &nbsp;
+        <SpeedButton current_speed={speed} speed='-0.001' setSpeed={setSpeed}/> &nbsp;
 
         {speed === 0 ?
             <Button bsStyle="success" onClick={() => setSpeed(1)}>▶️</Button>
           : <Button bsStyle="danger" onClick={() => setSpeed(0)}>⏸</Button>} &nbsp;
-
-        <Button bsStyle={speed === 0.001 ? 'success' : 'default'}
-                onClick={() => setSpeed(0.001)}>+0.001x</Button> &nbsp;
-
-        <Button bsStyle={speed === 0.01 ? 'success' : 'default'}
-                onClick={() => setSpeed(0.01)}>+0.01x</Button> &nbsp;
-
-        <Button bsStyle={speed === 0.1 ? 'success' : 'default'}
-                onClick={() => setSpeed(0.1)}>+0.1x</Button> &nbsp;
-
-        <Button bsStyle={speed === 1 ? 'success' : 'default'}
-                onClick={() => setSpeed(1)}>1x</Button> &nbsp;
-
-        <Button bsStyle={speed === 10 ? 'success' : 'default'}
-                onClick={() => setSpeed(10)}>+10x</Button>
+        
+        <SpeedButton current_speed={speed} speed='0.001' setSpeed={setSpeed}/> &nbsp;
+        <SpeedButton current_speed={speed} speed='0.01' setSpeed={setSpeed}/> &nbsp;
+        <SpeedButton current_speed={speed} speed='0.1' setSpeed={setSpeed}/> &nbsp;
+        <SpeedButton current_speed={speed} speed='1' setSpeed={setSpeed}/> &nbsp;
+        <SpeedButton current_speed={speed} speed='10' setSpeed={setSpeed}/>
     </ExpandableSection>
 }
 
