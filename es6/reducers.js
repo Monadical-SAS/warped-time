@@ -1,8 +1,8 @@
-export const select = (state) => state.time
+export const select_time = (state) => state.time
 
 const initial_state = {
-    speed: 1,
-    warped_time: Date.now(),
+    speed: null,
+    warped_time: null,
 }
 
 export const time = (state=initial_state, action) => {

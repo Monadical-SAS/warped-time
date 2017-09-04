@@ -109,10 +109,10 @@ export class TimeControls extends React.Component {
         this.state = {}
         if (props.tick === undefined) {
             this.ticker = new Ticker()
-            this.tick.subscribe(::this.tick)
+            this.ticker.subscribe(::this.tick)
         } else {
             this.ticker = props.tick
-            props.tick.subscribe(::this.tick)
+            props.ticker.subscribe(::this.tick)
         }
     }
 

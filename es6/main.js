@@ -10,7 +10,7 @@
 
 */
 
-import {select, time} from './reducers.js'
+import {select_time, time} from './reducers.js'
 import {TimeControls, TimeControlsComponent, Ticker} from './controls.js'
 
 
@@ -101,8 +101,14 @@ class WarpedTime {
     }
 
     handleStateChange() {
-        this.setSpeed(select(this.store.getState()).speed)
-        this.setWarpedTime(select(this.store.getState()).warped_time)
+        const speed = select_time(this.store.getState()).speed
+        if (speed !== null) {
+            this.setSpeed(speed)
+        }
+        const warped_time = select_time(this.store.getState()).warped_time
+        if (warped_time !== null) {
+            this.setWarpedTime(warped_time)
+        }
     }
 }
 
