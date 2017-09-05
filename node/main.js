@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.TimeControlsComponent = exports.TimeControls = exports.time = exports.Tick = exports.WarpedTime = undefined;
+exports.TimeControlsComponent = exports.TimeControls = exports.time = exports.Ticker = exports.WarpedTime = undefined;
 
 var _typeof2 = require('babel-runtime/helpers/typeof');
 
@@ -142,44 +142,17 @@ var WarpedTime = function () {
     }, {
         key: 'handleStateChange',
         value: function handleStateChange() {
-            this.setSpeed((0, _reducers.select)(this.store.getState()).speed);
-            this.setWarpedTime((0, _reducers.select)(this.store.getState()).warped_time);
+            var speed = (0, _reducers.select_time)(this.store.getState()).speed;
+            if (speed !== null) {
+                this.setSpeed(speed);
+            }
+            var warped_time = (0, _reducers.select_time)(this.store.getState()).warped_time;
+            if (warped_time !== null) {
+                this.setWarpedTime(warped_time);
+            }
         }
     }]);
     return WarpedTime;
-}();
-
-var Tick = function () {
-    function Tick(subscribers, running) {
-        (0, _classCallCheck3.default)(this, Tick);
-
-        this.subscribers = subscribers || [];
-        this.running = running || true;
-        this.tick();
-    }
-
-    (0, _createClass3.default)(Tick, [{
-        key: 'subscribe',
-        value: function subscribe(fn) {
-            this.subscribers.push(fn);
-        }
-    }, {
-        key: 'tick',
-        value: function tick() {
-            this.subscribers.forEach(function (fn) {
-                return fn();
-            });
-            if (this.running) {
-                window.requestAnimationFrame(this.tick.bind(this));
-            }
-        }
-    }, {
-        key: 'stop',
-        value: function stop() {
-            this.running = false;
-        }
-    }]);
-    return Tick;
 }();
 
 var raise_if_not_number = function raise_if_not_number(n, msg) {
@@ -189,7 +162,7 @@ var raise_if_not_number = function raise_if_not_number(n, msg) {
 };
 
 exports.WarpedTime = WarpedTime;
-exports.Tick = Tick;
+exports.Ticker = _controls.Ticker;
 exports.time = _reducers.time;
 exports.TimeControls = _controls.TimeControls;
 exports.TimeControlsComponent = _controls.TimeControlsComponent;

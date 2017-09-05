@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.time = exports.select = undefined;
+exports.time = exports.select_time = undefined;
 
 var _extends2 = require('babel-runtime/helpers/extends');
 
@@ -11,13 +11,13 @@ var _extends3 = _interopRequireDefault(_extends2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var select = exports.select = function select(state) {
+var select_time = exports.select_time = function select_time(state) {
     return state.time;
 };
 
 var initial_state = {
-    speed: 1,
-    warped_time: Date.now()
+    speed: null,
+    warped_time: null
 };
 
 var time = exports.time = function time() {

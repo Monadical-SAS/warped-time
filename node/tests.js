@@ -101,15 +101,15 @@ assert(wt3.getActualTime() === 115, 'expected 115, got ' + wt3.getActualTime());
 
 // Test TimeControls class
 
-var TestableTick = function (_Tick) {
-    (0, _inherits3.default)(TestableTick, _Tick);
+var TestableTicker = function (_Ticker) {
+    (0, _inherits3.default)(TestableTicker, _Ticker);
 
-    function TestableTick() {
-        (0, _classCallCheck3.default)(this, TestableTick);
-        return (0, _possibleConstructorReturn3.default)(this, (TestableTick.__proto__ || (0, _getPrototypeOf2.default)(TestableTick)).apply(this, arguments));
+    function TestableTicker() {
+        (0, _classCallCheck3.default)(this, TestableTicker);
+        return (0, _possibleConstructorReturn3.default)(this, (TestableTicker.__proto__ || (0, _getPrototypeOf2.default)(TestableTicker)).apply(this, arguments));
     }
 
-    (0, _createClass3.default)(TestableTick, [{
+    (0, _createClass3.default)(TestableTicker, [{
         key: 'tick',
         value: function tick() {
             this.subscribers.forEach(function (fn) {
@@ -120,8 +120,8 @@ var TestableTick = function (_Tick) {
             }
         }
     }]);
-    return TestableTick;
-}(_main.Tick);
+    return TestableTicker;
+}(_main.Ticker);
 
 var TestableTimeControls = function (_TimeControls) {
     (0, _inherits3.default)(TestableTimeControls, _TimeControls);
@@ -140,7 +140,7 @@ var TestableTimeControls = function (_TimeControls) {
     return TestableTimeControls;
 }(_controls.TimeControls);
 
-var tick = new TestableTick();
+var tick = new TestableTicker();
 assert(Array.isArray(tick.subscribers), 'expected an Array, got ' + (0, _typeof3.default)(tick.subscribers));
 assert(tick.running === true, 'expected true, got ' + tick.running);
 
@@ -155,6 +155,8 @@ controls.time.setWarpedTime(t);
 assert_fuzzy_equal_time(controls.time.getWarpedTime(), t, 'expected ' + t + ', got ' + controls.time.getWarpedTime());
 
 var testControlsAfterNDelays = function testControlsAfterNDelays(n, wt, t, delay, recursive_call) {
+    // babel-node is slow and the first iteration of this tests sometimes
+    //  fails as a result
     if (recursive_call) {
         var warped_time = controls.state.warped_time;
         assert_fuzzy_equal_time(warped_time, t + delay * speed, 'warped_time - t + (delay * speed) == ' + (warped_time - (t + delay * speed)) + ' but should be ~0.\n' + ('warped_time: ' + warped_time) + (', t: ' + t + ', delay: ' + delay + ', speed: ' + speed) + ('\nn is ' + n + '.'));
