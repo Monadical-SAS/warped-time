@@ -11,7 +11,7 @@ const FPS = (speed, current_timestamp, former_time) =>
     Math.round((speed * 1000)/(current_timestamp - former_time)) || 0
 
 const SpeedButton = ({current_speed, speed, setSpeed}) =>
-    <Button bsStyle={current_speed === speed ? 'success' :'default'}
+    <Button bsStyle={Number(current_speed) == Number(speed) ? 'success' :'default'}
             onClick={() => setSpeed(Number(speed))}>
         {`${Number(speed) < 0 ? '+' : '-'}${speed}x`}
     </Button>
