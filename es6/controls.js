@@ -13,7 +13,7 @@ const FPS = (speed, current_timestamp, former_time) =>
 const SpeedButton = ({current_speed, speed, setSpeed}) =>
     <Button bsStyle={Number(current_speed) == Number(speed) ? 'success' :'default'}
             onClick={() => setSpeed(Number(speed))}>
-        {`${Number(speed) < 0 ? '+' : '-'}${speed}x`}
+        {`${Number(speed) > 0 ? '+' : ''}${speed}x`}
     </Button>
 
 export const TimeControlsComponent = ({

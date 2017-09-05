@@ -55,7 +55,7 @@ var SpeedButton = function SpeedButton(_ref) {
         onClick: function onClick() {
             return setSpeed(Number(speed));
         }
-    }, void 0, '' + (Number(speed) < 0 ? '+' : '-') + speed + 'x');
+    }, void 0, '' + (Number(speed) > 0 ? '+' : '') + speed + 'x');
 };
 
 var TimeControlsComponent = exports.TimeControlsComponent = function TimeControlsComponent(_ref2) {
