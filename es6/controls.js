@@ -7,81 +7,129 @@ import {ExpandableSection} from 'monadical-react-components'
 const SOURCE = "https://github.com/Monadical-SAS/redux-time/blob/master/warped-time/controls.js"
 
 
-const FPS = (speed, current_timestamp, last_timestamp) =>
-    Math.round((speed * 1000)/(current_timestamp - last_timestamp)) || 0
+const FPS = (speed, current_timestamp, former_time) =>
+    Math.round((speed * 1000)/(current_timestamp - former_time)) || 0
 
+const SpeedButton = ({current_speed, speed, setSpeed}) =>
+    <Button bsStyle={Number(current_speed) == Number(speed) ? 'success' :'default'}
+            onClick={() => setSpeed(Number(speed))}>
+        {`${Number(speed) < 0 ? '+' : '-'}${speed}x`}
+    </Button>
 
-export const TimeControlsComponent = ({current_timestamp, last_timestamp, speed, setSpeed, debug, expanded}) => {
-    return <ExpandableSection name="Time Controls" source={debug && SOURCE} expanded={expanded}>
+export const TimeControlsComponent = ({
+        genesis_time, warped_time, former_time, most_future_time,
+        actual_time, speed, setSpeed, setWarpedTime, debug, expanded}) => {
+
+    return <ExpandableSection name="Time Controls"
+                              source={debug && SOURCE}
+                              expanded={expanded}>
         Speed of Time: {speed}x |
-        Warped 🕐 {Math.round(current_timestamp, 0)} |
-        Actual 🕰 {(new Date).getTime()} {speed == 0 ? '(updating paused)' : ''} |&nbsp;
-        {FPS(speed, current_timestamp, last_timestamp)} FPS
+        Warped 🕐 {Math.round(warped_time, 0)} |
+        Actual 🕰 {actual_time} {speed == 0 ? '(updating paused)' : ''} |&nbsp;
+        {FPS(speed, warped_time, former_time)} FPS
         <br/>
-        Reverse ⏪
-        <input
-            type="range"
-            onChange={(e) => setSpeed(e.target.value)}
-            min={-2}
-            max={2}
-            step={0.01}
-            value={speed}
-            style={{width: '70%', height: '10px', display: 'inline'}}/>
-        ⏩ Forward
+        <span style={{float:'right'}}> {actual_time} </span>
+        <span style={{float:'left'}}> {genesis_time} </span>
+        <div style={{width: '70%', display: 'block', 
+                    'marginLeft': 'auto', 'marginRight': 'auto'}}>
+            <input type="range"
+                   onChange={(e) => {
+                        setSpeed(0)
+                        setWarpedTime(Number(e.target.value))
+                   }}
+                   min={genesis_time}
+                   max={most_future_time}
+                   step={Math.min(30 - (most_future_time - genesis_time) / 5, 30)}
+                   value={warped_time}
+                   style={{
+                        float: 'left', height: '10px', display: 'inline',
+                        width: `${Math.min((most_future_time - genesis_time) / 150, 100)}%`,
+                    }}/>
+        </div>
         <br/>
-        <Button onClick={setSpeed.bind(this, -100)}>-100x</Button> &nbsp;
-        <Button onClick={setSpeed.bind(this, -10)}>-10x</Button> &nbsp;
-        <Button onClick={setSpeed.bind(this, -1)}>-1x</Button> &nbsp;
-        <Button onClick={setSpeed.bind(this, -0.1)}>-0.1x</Button> &nbsp;
-        <Button onClick={setSpeed.bind(this, -0.01)}>-0.01x</Button> &nbsp;
-        <Button bsStyle="danger" onClick={setSpeed.bind(this, 0)}>⏸</Button> &nbsp;
-        <Button bsStyle="success" onClick={setSpeed.bind(this, 1)}>▶️</Button> &nbsp;
-        <Button onClick={setSpeed.bind(this, 0.01)}>+0.01x</Button> &nbsp;
-        <Button onClick={setSpeed.bind(this, 0.1)}>+0.1x</Button> &nbsp;
-        <Button onClick={setSpeed.bind(this, 1)}>1x</Button> &nbsp;
-        <Button onClick={setSpeed.bind(this, 10)}>+10x</Button> &nbsp;
-        <Button onClick={setSpeed.bind(this, 100)}>+100x</Button>
+        <SpeedButton current_speed={speed} speed='-10' setSpeed={setSpeed}/> &nbsp;
+        <SpeedButton current_speed={speed} speed='-1' setSpeed={setSpeed}/> &nbsp;
+        <SpeedButton current_speed={speed} speed='-0.1' setSpeed={setSpeed}/> &nbsp;
+        <SpeedButton current_speed={speed} speed='-0.01' setSpeed={setSpeed}/> &nbsp;
+        <SpeedButton current_speed={speed} speed='-0.001' setSpeed={setSpeed}/> &nbsp;
+
+        {speed === 0 ?
+            <Button bsStyle="success" onClick={() => setSpeed(1)}>▶️</Button>
+          : <Button bsStyle="danger" onClick={() => setSpeed(0)}>⏸</Button>} &nbsp;
+        
+        <SpeedButton current_speed={speed} speed='0.001' setSpeed={setSpeed}/> &nbsp;
+        <SpeedButton current_speed={speed} speed='0.01' setSpeed={setSpeed}/> &nbsp;
+        <SpeedButton current_speed={speed} speed='0.1' setSpeed={setSpeed}/> &nbsp;
+        <SpeedButton current_speed={speed} speed='1' setSpeed={setSpeed}/> &nbsp;
+        <SpeedButton current_speed={speed} speed='10' setSpeed={setSpeed}/>
     </ExpandableSection>
+}
+
+export class Ticker {
+    constructor(subscribers, running) {
+        this.subscribers = subscribers || []
+        this.running = running || true
+        this.tick()
+    }
+    
+    subscribe(fn) {
+        this.subscribers.push(fn)
+    }
+
+    tick() {
+        this.subscribers.forEach((fn) => fn())
+        if (this.running) {
+            window.requestAnimationFrame(::this.tick)
+        }
+    }
+
+    stop() {
+        this.running = false
+    }
 }
 
 // auto-self-updating TimeControls component using requestAnimationFrame
 export class TimeControls extends React.Component {
     constructor(props) {
         super(props)
-        this.time = this.props.time || window.time
-        this.state = {
+        this.time = props.time
+        this.state = {}
+        if (props.tick === undefined) {
+            this.ticker = new Ticker()
+            this.ticker.subscribe(::this.tick)
+        } else {
+            this.ticker = props.tick
+            props.ticker.subscribe(::this.tick)
+        }
+    }
+
+    computeState() {
+        return {
             speed: this.time.speed,
-            current_timestamp: this.time.getWarpedTime(),
-            last_timestamp: this.time.getWarpedTime() - 20,
+            former_time: this.state.warped_time,
+            genesis_time: this.time.genesis_time,
+            warped_time: this.time.getWarpedTime(),
+            actual_time: this.time.getActualTime(),
+            most_future_time: this.time.most_future_time
         }
     }
-    componentDidMount() {
-        this.animating = true
-        this.tick()
-    }
-    componentWillUnmount() {
-        this.animating = false
-    }
+
     tick() {
-        this.setState({
-            current_timestamp: this.props.time.getWarpedTime(),
-            last_timestamp: this.state.current_timestamp,
-        })
-        if (this.animating) {
-            window.requestAnimationFrame(::this.tick)
-        }
+        this.setState(this.computeState())
     }
-    setSpeed(speed) {
-        this.time.setSpeed(speed)
-        this.setState({...this.state, speed})
-    }
+  
     render() {
         return <TimeControlsComponent
-            speed={this.state.speed}
-            current_timestamp={this.state.current_timestamp}
-            last_timestamp={this.state.last_timestamp}
-            setSpeed={::this.setSpeed}
-            debug={this.props.debug}
-            expanded={this.props.expanded}/>
+                    speed={this.state.speed}
+                    former_time={this.state.former_time}
+                    genesis_time={this.state.genesis_time}
+                    warped_time={this.state.warped_time}
+                    actual_time={this.state.actual_time}
+                    most_future_time={this.state.most_future_time}
+
+                    setSpeed={::this.time.setSpeed}
+                    setWarpedTime={::this.time.setWarpedTime}
+                    debug={this.props.debug}
+                    expanded={this.props.expanded}/>
     }
 }
