@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.TimeControlsComponent = exports.TimeControls = exports.time = exports.Ticker = exports.WarpedTime = undefined;
+exports.time = exports.WarpedTime = undefined;
 
 var _typeof2 = require('babel-runtime/helpers/typeof');
 
@@ -19,21 +19,7 @@ var _createClass3 = _interopRequireDefault(_createClass2);
 
 var _reducers = require('./reducers.js');
 
-var _controls = require('./controls.js');
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/*
-    Usage:
-        window.store = createStore(combineReducers({time, ...}))
-
-        window.time = new WarpedTime(window.store)
-
-        time.getWarpedTime() => 3241
-        window.store.dispatch({type: 'SET_SPEED', speed: -1})
-        time.getWarpedTime() = 3100
-
-*/
 
 var WarpedTime = function () {
     function WarpedTime() {
@@ -132,6 +118,7 @@ var WarpedTime = function () {
             raise_if_not_number(timestamp, '@WarpedTime.setWarpedTime');
             if (duration) {
                 // TODO: gradual syncing not implemented yet
+                console.error('Passing 2nd argument duration is not supported yet.');
                 debugger;
             } else {
                 this._lastTime = this.getActualTime();
@@ -153,7 +140,17 @@ var WarpedTime = function () {
         }
     }]);
     return WarpedTime;
-}();
+}(); /*
+         Usage:
+             window.store = createStore(combineReducers({time, ...}))
+     
+             window.time = new WarpedTime(window.store)
+     
+             time.getWarpedTime() => 3241
+             window.store.dispatch({type: 'SET_SPEED', speed: -1})
+             time.getWarpedTime() = 3100
+     
+     */
 
 var raise_if_not_number = function raise_if_not_number(n, msg) {
     if (!(typeof n === 'number')) {
@@ -162,7 +159,4 @@ var raise_if_not_number = function raise_if_not_number(n, msg) {
 };
 
 exports.WarpedTime = WarpedTime;
-exports.Ticker = _controls.Ticker;
 exports.time = _reducers.time;
-exports.TimeControls = _controls.TimeControls;
-exports.TimeControlsComponent = _controls.TimeControlsComponent;

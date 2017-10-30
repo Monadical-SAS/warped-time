@@ -11,7 +11,6 @@
 */
 
 import {select_time, time} from './reducers.js'
-import {TimeControls, TimeControlsComponent, Ticker} from './controls.js'
 
 
 class WarpedTime {
@@ -92,6 +91,7 @@ class WarpedTime {
         raise_if_not_number(timestamp, '@WarpedTime.setWarpedTime')
         if (duration) {
             // TODO: gradual syncing not implemented yet
+            console.error('Passing 2nd argument duration is not supported yet.')
             debugger
         } else {
             this._lastTime = this.getActualTime()
@@ -119,4 +119,4 @@ const raise_if_not_number = (n, msg) => {
 }
 
 
-export {WarpedTime, Ticker, time, TimeControls, TimeControlsComponent}
+export {WarpedTime, time}
