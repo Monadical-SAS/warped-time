@@ -43,6 +43,7 @@ class WarpedTime {
     setSpeed(speed) {
         raise_if_not_number(speed, '@WarpedTime.setSpeed')
         this.speed = speed
+        return this.getWarpedTime()
     }
 
     getSystemTime() {

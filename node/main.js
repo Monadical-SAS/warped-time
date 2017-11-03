@@ -63,6 +63,7 @@ var WarpedTime = function () {
         value: function setSpeed(speed) {
             raise_if_not_number(speed, '@WarpedTime.setSpeed');
             this.speed = speed;
+            return this.getWarpedTime();
         }
     }, {
         key: 'getSystemTime',
