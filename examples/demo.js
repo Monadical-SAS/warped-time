@@ -1,11 +1,15 @@
-// import React from 'react'
-// import ReactDOM from 'react-dom'
+import React from 'react'
+import ReactDOM from 'react-dom'
 
-// import {WarpedTime, TimeControls} from '../node/main.js'
+import {TimeControls} from 'monadical-react-components/node/warped-time-controls'
 
-// window.time = new WarpedTime()
+import {WarpedTime} from '../node/main.js'
 
-// ReactDOM.render(
-//     <TimeControls time={window.time} debug expanded/>,
-//     document.getElementById('react'),
-// )
+
+
+window.time = new WarpedTime()
+
+ReactDOM.render(
+    <TimeControls time={window.time} debug expanded/>,
+    document.getElementById('react'),
+)
