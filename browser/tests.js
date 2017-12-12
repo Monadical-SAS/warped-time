@@ -440,7 +440,7 @@ module.exports = function (it) {
 };
 
 },{}],21:[function(require,module,exports){
-var core = module.exports = { version: '2.5.1' };
+var core = module.exports = { version: '2.5.3' };
 if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
 
 },{}],22:[function(require,module,exports){
@@ -683,7 +683,7 @@ module.exports = function (Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCE
   var VALUES_BUG = false;
   var proto = Base.prototype;
   var $native = proto[ITERATOR] || proto[FF_ITERATOR] || DEFAULT && proto[DEFAULT];
-  var $default = $native || getMethod(DEFAULT);
+  var $default = (!BUGGY && $native) || getMethod(DEFAULT);
   var $entries = DEFAULT ? !DEF_VALUES ? $default : getMethod('entries') : undefined;
   var $anyNative = NAME == 'Array' ? proto.entries || $native : $native;
   var methods, key, IteratorPrototype;
@@ -1228,6 +1228,7 @@ var wksDefine = require('./_wks-define');
 var enumKeys = require('./_enum-keys');
 var isArray = require('./_is-array');
 var anObject = require('./_an-object');
+var isObject = require('./_is-object');
 var toIObject = require('./_to-iobject');
 var toPrimitive = require('./_to-primitive');
 var createDesc = require('./_property-desc');
@@ -1420,15 +1421,14 @@ $JSON && $export($export.S + $export.F * (!USE_NATIVE || $fails(function () {
   return _stringify([S]) != '[null]' || _stringify({ a: S }) != '{}' || _stringify(Object(S)) != '{}';
 })), 'JSON', {
   stringify: function stringify(it) {
-    if (it === undefined || isSymbol(it)) return; // IE8 returns string on undefined
     var args = [it];
     var i = 1;
     var replacer, $replacer;
     while (arguments.length > i) args.push(arguments[i++]);
-    replacer = args[1];
-    if (typeof replacer == 'function') $replacer = replacer;
-    if ($replacer || !isArray(replacer)) replacer = function (key, value) {
-      if ($replacer) value = $replacer.call(this, key, value);
+    $replacer = replacer = args[1];
+    if (!isObject(replacer) && it === undefined || isSymbol(it)) return; // IE8 returns string on undefined
+    if (!isArray(replacer)) replacer = function (key, value) {
+      if (typeof $replacer == 'function') value = $replacer.call(this, key, value);
       if (!isSymbol(value)) return value;
     };
     args[1] = replacer;
@@ -1445,7 +1445,7 @@ setToStringTag(Math, 'Math', true);
 // 24.3.3 JSON[@@toStringTag]
 setToStringTag(global.JSON, 'JSON', true);
 
-},{"./_an-object":18,"./_descriptors":24,"./_enum-keys":27,"./_export":28,"./_fails":29,"./_global":30,"./_has":31,"./_hide":32,"./_is-array":36,"./_library":42,"./_meta":43,"./_object-create":45,"./_object-dp":46,"./_object-gopd":48,"./_object-gopn":50,"./_object-gopn-ext":49,"./_object-gops":51,"./_object-keys":54,"./_object-pie":55,"./_property-desc":56,"./_redefine":57,"./_set-to-string-tag":58,"./_shared":60,"./_to-iobject":64,"./_to-primitive":67,"./_uid":68,"./_wks":71,"./_wks-define":69,"./_wks-ext":70}],78:[function(require,module,exports){
+},{"./_an-object":18,"./_descriptors":24,"./_enum-keys":27,"./_export":28,"./_fails":29,"./_global":30,"./_has":31,"./_hide":32,"./_is-array":36,"./_is-object":37,"./_library":42,"./_meta":43,"./_object-create":45,"./_object-dp":46,"./_object-gopd":48,"./_object-gopn":50,"./_object-gopn-ext":49,"./_object-gops":51,"./_object-keys":54,"./_object-pie":55,"./_property-desc":56,"./_redefine":57,"./_set-to-string-tag":58,"./_shared":60,"./_to-iobject":64,"./_to-primitive":67,"./_uid":68,"./_wks":71,"./_wks-define":69,"./_wks-ext":70}],78:[function(require,module,exports){
 require('./_wks-define')('asyncIterator');
 
 },{"./_wks-define":69}],79:[function(require,module,exports){

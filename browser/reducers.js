@@ -111,7 +111,7 @@ module.exports = function (it) {
 };
 
 },{}],9:[function(require,module,exports){
-var core = module.exports = { version: '2.5.1' };
+var core = module.exports = { version: '2.5.3' };
 if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
 
 },{}],10:[function(require,module,exports){
