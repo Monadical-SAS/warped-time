@@ -1,6 +1,6 @@
 {
   "name": "warped-time",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "description": "Provides an equivalent to Date.getTime() with variable progression speed.",
   "author": "Nick Sweeting <git@nicksweeting.com>",
   "license": "MIT",
