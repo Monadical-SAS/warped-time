@@ -1,9 +1,9 @@
-import {WarpedTime, Ticker} from './main.js'
+import {WarpedTime} from './main.js'
 
 // util functions
 const assert = (val, error_msg) => {
     if (!val) {
-        console.log(`[X] AssertionError: ${error_msg} (${val})`)
+        console.log(`\n[X] AssertionError: ${error_msg} (${val})`)
     } else {
         process ? process.stdout.write('.') : console.log('.')
     }

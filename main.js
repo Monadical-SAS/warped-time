@@ -1,3 +1,5 @@
+import {select_time, time} from './reducers.js'
+
 /*
     Usage:
         window.store = createStore(combineReducers({time, ...}))
@@ -9,8 +11,6 @@
         time.getWarpedTime() = 3100
 
 */
-
-import {select_time, time} from './reducers.js'
 
 
 class WarpedTime {
